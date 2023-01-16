@@ -3,7 +3,7 @@ import {
   NavbarBrand,
 } from "reactstrap";
 
-import { FaFire } from "react-icons/fa";
+import logo from '../assets/sensibull_logo.jpg'
 
 
 const Header = () => {
@@ -13,7 +13,7 @@ const Header = () => {
 
       <Navbar expand="md" className="bg-dark">
         <NavbarBrand className="text-white" href="/">
-          Senisbull <FaFire className="text-warning" />
+          <img src={logo} width="28rem"/>Senisbull
         </NavbarBrand>
       </Navbar>
     </div>
