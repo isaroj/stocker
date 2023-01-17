@@ -7,6 +7,7 @@ import Footer from './components/Footer'
 import { Outlet } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.css";
+import "react-toastify/dist/ReactToastify.css";
 
 import './App.css'
 
