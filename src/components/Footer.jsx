@@ -3,10 +3,8 @@ import { FaHeart, FaReact } from "react-icons/fa";
 const Footer = () => {
   return (
     <div
-      className="bg-dark text-white text-center fixed-bottom"
+      className="bg-dark text-white text-center"
       style={{
-        // position: 'fixed',
-        // bottom: 0,
         width: "100vw",
       }}
     >
@@ -19,10 +17,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
-const footerStyle = {
-  main: {
-    position: "absolute",
-    bottom: "0",
-  },
-};
