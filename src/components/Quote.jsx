@@ -1,14 +1,22 @@
+// react
 import {useState, useEffect} from 'react'
 
+// routing
 import { useParams, useNavigate } from "react-router-dom";
+
+// service
 import { quotesService } from "../services/QuotesService";
 
+// comps
 import InstrumentTableList from "./InstrumentTableList";
 
-
+// reactstrap
 import { Spinner, Button } from "reactstrap";
+
+// toastmeassge
 import { toast, ToastContainer } from "react-toastify";
 
+// icons
 import {FaArrowLeft} from 'react-icons/fa'
 
 
@@ -18,11 +26,11 @@ const Quote = () => {
   const {symbol} = useParams()
   const [quotes, setQuotes] = useState({});
   const [isLoading, setIsLoading] = useState(false);
-  const [maxTimeFetchQuotes, setMaxTimeFetchQuotes] = useState(0);
 
   const navigate = useNavigate();
 
 
+  // sort the quotes data according to different order & parameter
   const sortQuotes = (data, order, parameter) => {
     return data?.sort((q1, q2) => {
       if (order === 'asc') {
@@ -33,6 +41,8 @@ const Quote = () => {
     })
   }
 
+
+  // get quotes for specified symbol
   const getQuotes = async () => {
     try {
       setIsLoading(true);
@@ -57,6 +67,8 @@ const Quote = () => {
     getQuotes();
   }, []);
 
+
+  // refetch calculation time
   useEffect(() => {
     const sortedQuotesAsPerValidTill = sortQuotes(
       quotes.rows,

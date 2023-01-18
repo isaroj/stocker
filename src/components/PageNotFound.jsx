@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router-dom";
 import { FaRegMeh } from "react-icons/fa";
 import { Button } from "reactstrap";
+
+
 const PageNotFound = () => {
   const navigate = useNavigate();
   return (

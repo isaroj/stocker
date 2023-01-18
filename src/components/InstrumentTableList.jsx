@@ -1,9 +1,16 @@
+// react
 import {useState, useEffect} from 'react'
 
-import { Table, Badge } from "reactstrap";
+// router
 import { useNavigate } from "react-router-dom";
 
+// reactstrap
+import { Table, Badge } from "reactstrap";
+
+// icons
 import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+
+// switch comp
 import Switch from "react-switch";
 
 

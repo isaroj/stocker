@@ -1,18 +1,28 @@
+// react
 import {useEffect, useState} from 'react';
+
+// parser
 import Papa from "papaparse";
 
-import InstrumentTableList from './InstrumentTableList';
-
-import { Input, Spinner } from "reactstrap";
+// fuzzy searcher
 import Fuse from "fuse.js";
 
+// reactstrap
+import { Input, Spinner } from "reactstrap";
+
+// toastmessages
 import { toast, ToastContainer } from "react-toastify";
+
+// lodash
+import isEmpty from "lodash/isEmpty";
+
+// comps
+import InstrumentTableList from './InstrumentTableList';
+
 
 // services
 import {instrumentService} from '../services/InstrumentsService'
 
-
-import isEmpty from "lodash/isEmpty";
 
 
 const Instrument = () => {
@@ -21,6 +31,8 @@ const Instrument = () => {
     const [query, setQuery] = useState('');
     const [isLoading, setIsLoading] = useState(false)
 
+
+    // parser takes CSV input returns JSON
      const parseFile = (file) => {
        Papa.parse(file, {
          header: true,
@@ -53,6 +65,7 @@ const Instrument = () => {
        setQuery(e.target.value);
      };
 
+    // fetch all instruments
     const getAllInstruments = async () => {
         try {
             setIsLoading(true)
@@ -70,6 +83,7 @@ const Instrument = () => {
         getAllInstruments()
     }, []);
 
+    // for fuzzy search
     useEffect(() => {
       if (isEmpty(instruments)) return;
       if (query === '') {

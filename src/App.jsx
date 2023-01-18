@@ -6,10 +6,11 @@ import Footer from './components/Footer'
 // routing
 import { Outlet } from "react-router-dom";
 
+
+// third-party library css
 import "bootstrap/dist/css/bootstrap.css";
 import "react-toastify/dist/ReactToastify.css";
 
-import './App.css'
 
 function App() {
 
