@@ -1,36 +1,97 @@
-import { Table } from "reactstrap";
+import {useState, useEffect} from 'react'
+
+import { Table, Badge } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 
+import { FaArrowDown, FaArrowUp } from "react-icons/fa";
+import Switch from "react-switch";
 
 
-const InstrumentTableList = ({ headers, rows }) => {
 
-    const navigate = useNavigate();
+const InstrumentTableList = ({
+  headers,
+  rows,
+  tableTitle,
+  sortableParameters,
+  sortQuotes,
+}) => {
+  const [isAscending, setIsAscending] = useState(true);
 
-    const handleQuotes = (value) => {
-        const symbol = value[1]
-        navigate(`/quotes/${symbol}`);
-    }
+  const navigate = useNavigate();
+
+  const handleQuotes = (value) => {
+    const symbol = value[1];
+    navigate(`/quotes/${symbol}`);
+  };
+
+  const handleSort = () => {
+    setIsAscending(!isAscending);
+  };
+
+  useEffect(() => {
+    if (!sortQuotes) return
+      if (isAscending) {
+        sortQuotes(rows, "asc", 'time');
+      } else {
+        sortQuotes(rows, "dsc", 'time');
+      }
+  }, [isAscending]);
 
   return (
     <div
       style={{
-        margin: "5rem",
+        margin: "2rem",
       }}
     >
+      <h4 className="m-4">
+        <Badge color="dark" pill>
+          {tableTitle}
+        </Badge>
+      </h4>
       <Table
         bordered
-        hover
         responsive
+        striped
         style={{
-          borderRadius: "10rem",
-          textAlign: 'center',
+          textAlign: "center",
         }}
       >
         <thead>
           <tr>
             {headers?.map((header, index) => (
-              <th key={index}>{header}</th>
+              <th key={index}>
+                {header}
+                {sortableParameters?.includes(header.toLowerCase()) ? (
+                  <div
+                    className="m-2"
+                    style={{
+                      display: "inline",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <Switch
+                      onChange={handleSort}
+                      checked={isAscending}
+                      offColor="#F7CD2E"
+                      onColor="#46B2E0"
+                      checkedIcon={
+                        <div style={switchIcon}>
+                          <span>A</span>
+                          <FaArrowDown />
+                        </div>
+                      }
+                      uncheckedIcon={
+                        <div style={switchIcon}>
+                          <span>D</span>
+                          <FaArrowUp />
+                        </div>
+                      }
+                    />
+                  </div>
+                ) : (
+                  ""
+                )}
+              </th>
             ))}
           </tr>
         </thead>
@@ -44,7 +105,7 @@ const InstrumentTableList = ({ headers, rows }) => {
                       ? {
                           cursor: "pointer",
                           backgroundColor: "#242B2E",
-                          color: '#fff'
+                          color: "#fff",
                         }
                       : {}
                   }
@@ -68,6 +129,7 @@ const InstrumentTableList = ({ headers, rows }) => {
         <h4
           style={{
             margin: " 2rem auto",
+            textAlign: 'center'
           }}
         >
           No matching results or data to display
@@ -78,3 +140,12 @@ const InstrumentTableList = ({ headers, rows }) => {
 };
 
 export default InstrumentTableList;
+
+const switchIcon = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100%",
+  fontSize: 15,
+  padding: "0.256rem",
+};
