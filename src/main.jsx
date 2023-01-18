@@ -4,8 +4,8 @@ import ReactDOM from 'react-dom/client'
 
 
 // comps
-import Instrument from "./components/Instrument";
-import Quote from "./components/Quote";
+import Instrument from "./pages/Instrument";
+import Quote from "./pages/Quote";
 import PageNotFound from "./components/PageNotFound";
 import App from './App'
 
