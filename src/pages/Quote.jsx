@@ -33,6 +33,7 @@ const Quote = () => {
   //states
   const [quotes, setQuotes] = useState({});
   const [sortConfig, setSortConfig] = useState();
+  const [initialLoading, setIntialLoading] = useState(false);
 
   // navigate
   const navigate = useNavigate();
@@ -67,14 +68,19 @@ const Quote = () => {
       setQuotes(quotesDetail);
     } catch (error) {
       toast.error("Oops! something went wrong!");
+    } finally {
+      setIntialLoading(false)
     }
   };
 
   useEffect(() => {
+    // will set loading to true one time only.
+    // Otherwise due to frequent API call as live data is expired, loading icon is creating a bad UI / UX. So after the 1st time data will be fetched & updated silently. 
+    setIntialLoading(true)
     getQuotes();
   }, []);
 
-  
+
   useEffect(() => {
     if (isEmpty(sortConfig) || isEmpty(quotes)) return
     const sortedData = sortQuotes(
@@ -102,8 +108,8 @@ const Quote = () => {
 
       count++
       if (hasExpired) {
-        // Fetch after 5 sec, if 3 consecutive requests have been made
-        if (count >= 3) delay = 5000
+        // Fetch after 2 sec, if 3 consecutive requests have been made
+        if (count >= 3) delay = 2000
         setTimeout(() => {
           getQuotes();
         }, delay);
@@ -141,11 +147,12 @@ const Quote = () => {
           }}
           onClick={() => navigate("/")}
         >
-          <FaArrowLeft 
-          style={{
-            marginBottom: '0.2rem'
-          }}
-          /> Go Back
+          <FaArrowLeft
+            style={{
+              marginBottom: "0.2rem",
+            }}
+          />{" "}
+          Go Back
         </Button>
       </div>
       <ToastContainer
@@ -155,9 +162,19 @@ const Quote = () => {
         pauseOnHover
         theme="light"
       />
-        <>
-          <InstrumentTableList {...quotes} />
-        </>
+      {initialLoading ? (
+        <div
+          style={{
+            textAlign: "center",
+            margin: "15%",
+          }}
+        >
+          <Spinner color="dark" />
+          <h4>Fetching quotes.....</h4>
+        </div>
+      ) : (
+        <InstrumentTableList {...quotes} />
+      )}
     </div>
   );
 };
