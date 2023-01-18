@@ -42,6 +42,7 @@ const Instrument = () => {
               'Name': d?.Name,
               'Category': d?.Sector
              })));
+            metaInstrumentObj.tableTitle = 'Instruments' 
            setInstruments(metaInstrumentObj);
            setFilteredInstruments(metaInstrumentObj);
          },
