@@ -26,6 +26,8 @@ import {instrumentService} from '../services/InstrumentsService'
 
 
 const Instrument = () => {
+
+    // states
     const [instruments, setInstruments] = useState({});
     const [filteredInstruments, setFilteredInstruments] = useState({});
     const [query, setQuery] = useState('');

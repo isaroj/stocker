@@ -26,10 +26,15 @@ import { isEmpty } from 'lodash';
 let delay = 0
 let count = 0
 const Quote = () => {
+
+  // route params
   const {symbol} = useParams()
+
+  //states
   const [quotes, setQuotes] = useState({});
   const [sortConfig, setSortConfig] = useState();
 
+  // navigate
   const navigate = useNavigate();
 
 
@@ -50,6 +55,8 @@ const Quote = () => {
     try {
       const { data } = await quotesService(symbol);
       const quotesRes = data?.payload[symbol];
+
+      // quotes object
       const quotesDetail = {
         headers: Object.keys(quotesRes[0]),
         rows: sortQuotes(quotesRes, sortConfig?.order, 'time'),
@@ -67,6 +74,7 @@ const Quote = () => {
     getQuotes();
   }, []);
 
+  
   useEffect(() => {
     if (isEmpty(sortConfig) || isEmpty(quotes)) return
     const sortedData = sortQuotes(
@@ -94,11 +102,13 @@ const Quote = () => {
 
       count++
       if (hasExpired) {
+        // Fetch after 5 sec, if 3 consecutive requests have been made
         if (count >= 3) delay = 5000
         setTimeout(() => {
           getQuotes();
         }, delay);
       } else {
+        // if data is alive till now
         const remainingTime = new Date(lowestValidTill) - new Date();
         count = 0
         delay = 0
