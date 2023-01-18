@@ -20,7 +20,7 @@ const InstrumentTableList = ({
   rows,
   tableTitle,
   sortableParameters,
-  sortQuotes,
+  setSortConfig
 }) => {
   const [isAscending, setIsAscending] = useState(true);
 
@@ -36,12 +36,18 @@ const InstrumentTableList = ({
   };
 
   useEffect(() => {
-    if (!sortQuotes) return
-      if (isAscending) {
-        sortQuotes(rows, "asc", 'time');
-      } else {
-        sortQuotes(rows, "dsc", 'time');
-      }
+    if (!setSortConfig) return;
+    if (isAscending) {
+      setSortConfig({
+        order: 'asc',
+        parameter: 'time'
+      });
+    } else {
+      setSortConfig({
+        order: "dsc",
+        parameter: "time",
+      });
+    }
   }, [isAscending]);
 
   return (
@@ -136,7 +142,7 @@ const InstrumentTableList = ({
         <h4
           style={{
             margin: " 2rem auto",
-            textAlign: 'center'
+            textAlign: "center",
           }}
         >
           No matching results or data to display
