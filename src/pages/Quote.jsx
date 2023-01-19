@@ -25,6 +25,7 @@ import { isEmpty } from 'lodash';
 
 let delay = 0
 let count = 0
+let quotesRef ; 
 const Quote = () => {
 
   // route params
@@ -34,6 +35,7 @@ const Quote = () => {
   const [quotes, setQuotes] = useState({});
   const [sortConfig, setSortConfig] = useState();
   const [initialLoading, setIntialLoading] = useState(false);
+  const [isSortingRequest, setIsSortingRequest] = useState(false);
 
   // navigate
   const navigate = useNavigate();
@@ -83,6 +85,7 @@ const Quote = () => {
 
   useEffect(() => {
     if (isEmpty(sortConfig) || isEmpty(quotes)) return
+    setIsSortingRequest(true)
     const sortedData = sortQuotes(
       quotes?.rows, sortConfig?.order,
       sortConfig?.parameter
@@ -96,7 +99,12 @@ const Quote = () => {
 
   // refetch calculation time
   useEffect(() => {
-    if (isEmpty(quotes)) return
+    if (isSortingRequest) {
+      if (quotesRef) clearTimeout(quotesRef);
+      setIsSortingRequest(false);
+      return;
+    }
+    if (isEmpty(quotes)) return;
     const sortedQuotesAsPerValidTill = sortQuotes(
       quotes?.rows,
       "asc",
@@ -106,24 +114,24 @@ const Quote = () => {
       const lowestValidTill = sortedQuotesAsPerValidTill[0].valid_till;
       const hasExpired = new Date() > new Date(lowestValidTill);
 
-      count++
+      count++;
       if (hasExpired) {
         // Fetch after 2 sec, if 3 consecutive requests have been made
-        if (count >= 3) delay = 2000
-        setTimeout(() => {
+        if (count >= 3) delay = 2000;
+        quotesRef = setTimeout(() => {
           getQuotes();
         }, delay);
       } else {
         // if data is alive till now
         const remainingTime = new Date(lowestValidTill) - new Date();
-        count = 0
-        delay = 0
+        count = 0;
+        delay = 0;
         setTimeout(() => {
           getQuotes();
         }, remainingTime);
       }
     }
-  }, [quotes]);
+  }, [quotes, isSortingRequest]);
 
 
   return (
