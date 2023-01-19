@@ -101,10 +101,11 @@ const Instrument = () => {
       });
       const results = fuse.search(query);
       setFilteredInstruments({
-        'headers': instruments.headers,
+        ...instruments,
         'rows': results?.map(result => ({
           ...result.item
-        }))
+        })),
+
       })
     }, [query]);
 
