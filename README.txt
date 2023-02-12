@@ -19,5 +19,6 @@
     * On clicking any symbol, data is fetched for that symbol & quotes are displayed in table format.
     * User can search by Symbol, Name & sector using search bar to filter table data.
     * On quotes table user can sort the data by time by asc or desc
-    * The data will refetched automatically is valid_till has exipred, we will make requests & check if we have still expired data, if so we will make another requests but after 3 requests we will fetch in every 2sec.
+    * The data will refetched automatically is valid_till has exipred.
+    * we will make requests & check if we have still expired data, if so we will make another requests but after 3 requests we will fetch in every 2sec.
     * If we have live valid_till then, we will make request once it exipre.
