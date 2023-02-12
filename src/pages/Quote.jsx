@@ -118,6 +118,7 @@ const Quote = () => {
       if (hasExpired) {
         // Fetch after 2 sec, if 3 consecutive requests have been made
         if (count >= 3) delay = 2000;
+        clearTimeout(quotesRef)
         quotesRef = setTimeout(() => {
           getQuotes();
         }, delay);
@@ -126,7 +127,8 @@ const Quote = () => {
         const remainingTime = new Date(lowestValidTill) - new Date();
         count = 0;
         delay = 0;
-        setTimeout(() => {
+        clearTimeout(timer)
+        const timer = setTimeout(() => {
           getQuotes();
         }, remainingTime);
       }
